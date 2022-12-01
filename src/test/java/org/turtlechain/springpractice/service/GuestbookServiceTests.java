@@ -4,6 +4,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.turtlechain.springpractice.dto.GuestbookDTO;
+import org.turtlechain.springpractice.dto.PageRequestDTO;
+import org.turtlechain.springpractice.dto.PageResultDTO;
+import org.turtlechain.springpractice.entity.GuestBook;
 
 @SpringBootTest
 public class GuestbookServiceTests {
@@ -21,5 +24,24 @@ public class GuestbookServiceTests {
                 .build();
 
         System.out.println(service.register(guestbookDTO));
+    }
+
+    @Test
+    public void testList() {
+        PageRequestDTO pageRequestDTO = PageRequestDTO.builder()
+                .page(1)
+                .size(10)
+                .build();
+
+        PageResultDTO<GuestbookDTO, GuestBook> resultDTO = service.getList(pageRequestDTO);
+
+
+        System.out.println("PREV: " + resultDTO.isPrev());
+        System.out.println("NEXT: " + resultDTO.isNext());
+        System.out.println("TOTAL: " + resultDTO.getTotalPage());
+        System.out.println("----------------");
+        resultDTO.getDtoList().forEach(System.out::println);
+        resultDTO.getPageList().forEach(System.out::println);
+
     }
 }

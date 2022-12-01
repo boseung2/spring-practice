@@ -1,14 +1,17 @@
 package org.turtlechain.springpractice.service;
 
-import org.springframework.stereotype.Service;
 import org.turtlechain.springpractice.dto.GuestbookDTO;
-import org.turtlechain.springpractice.entity.GuestBook;
+import org.turtlechain.springpractice.dto.PageRequestDTO;
+import org.turtlechain.springpractice.dto.PageResultDTO;
+import org.turtlechain.springpractice.entity.Guestbook;
 
 public interface GuestbookService {
     Long register(GuestbookDTO dto);
 
-    default GuestBook dtoToEntity(GuestbookDTO dto) {
-        GuestBook entity = GuestBook.builder()
+    PageResultDTO<GuestbookDTO, Guestbook> getList(PageRequestDTO requestDTO);
+
+    default Guestbook dtoToEntity(GuestbookDTO dto) {
+        Guestbook entity = Guestbook.builder()
                 .gno(dto.getGno())
                 .title(dto.getTitle())
                 .content(dto.getContent())
@@ -16,5 +19,19 @@ public interface GuestbookService {
                 .build();
 
         return entity;
+    }
+
+    default GuestbookDTO entityToDto(Guestbook entity) {
+
+        GuestbookDTO dto = GuestbookDTO.builder()
+                .gno(entity.getGno())
+                .title(entity.getTitle())
+                .content(entity.getContent())
+                .writer(entity.getWriter())
+                .regDate(entity.getRegDate())
+                .modDate(entity.getModDate())
+                .build();
+
+        return dto;
     }
 }
