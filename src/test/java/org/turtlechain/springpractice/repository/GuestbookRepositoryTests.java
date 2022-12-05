@@ -9,8 +9,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.turtlechain.springpractice.entity.GuestBook;
-import org.turtlechain.springpractice.entity.QGuestBook;
+import org.turtlechain.springpractice.entity.Guestbook;
+import org.turtlechain.springpractice.entity.QGuestbook;
 
 import java.util.Optional;
 import java.util.stream.IntStream;
@@ -24,7 +24,7 @@ public class GuestbookRepositoryTests {
     @Test
     public void insertDummies() {
         IntStream.rangeClosed(1, 300).forEach(i -> {
-            GuestBook guestbook = GuestBook.builder()
+            Guestbook guestbook = Guestbook.builder()
                     .title("Title..." + i)
                     .content("Content...")
                     .writer("user" + (i % 10))
@@ -36,10 +36,10 @@ public class GuestbookRepositoryTests {
 
     @Test
     public void updateTest() {
-        Optional<GuestBook> result = guestbookRepository.findById(300L);
+        Optional<Guestbook> result = guestbookRepository.findById(300L);
 
         if(result.isPresent()) {
-            GuestBook guestbook = result.get();
+            Guestbook guestbook = result.get();
 
             guestbook.changeTitle("Changed Title...");
             guestbook.changeContent("Changed Content...");
@@ -52,7 +52,7 @@ public class GuestbookRepositoryTests {
     public void testQuery1() {
         Pageable pageable = PageRequest.of(0, 10, Sort.by("gno").descending());
 
-        QGuestBook qGuestbook = QGuestBook.guestBook;
+        QGuestbook qGuestbook = QGuestbook.guestbook;
 
         String keyword = "1";
 
@@ -68,7 +68,7 @@ public class GuestbookRepositoryTests {
 
         builder.and(qGuestbook.gno.gt(0L));
 
-        Page<GuestBook> result = guestbookRepository.findAll(builder, pageable);
+        Page<Guestbook> result = guestbookRepository.findAll(builder, pageable);
 
         result.stream().forEach(System.out::println);
 

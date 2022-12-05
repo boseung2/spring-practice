@@ -6,7 +6,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.turtlechain.springpractice.dto.GuestbookDTO;
 import org.turtlechain.springpractice.dto.PageRequestDTO;
 import org.turtlechain.springpractice.dto.PageResultDTO;
-import org.turtlechain.springpractice.entity.GuestBook;
+import org.turtlechain.springpractice.entity.Guestbook;
 
 @SpringBootTest
 public class GuestbookServiceTests {
@@ -33,7 +33,7 @@ public class GuestbookServiceTests {
                 .size(10)
                 .build();
 
-        PageResultDTO<GuestbookDTO, GuestBook> resultDTO = service.getList(pageRequestDTO);
+        PageResultDTO<GuestbookDTO, Guestbook> resultDTO = service.getList(pageRequestDTO);
 
 
         System.out.println("PREV: " + resultDTO.isPrev());
