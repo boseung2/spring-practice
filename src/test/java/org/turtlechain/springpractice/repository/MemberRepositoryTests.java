@@ -8,7 +8,7 @@ import org.turtlechain.springpractice.entity.Member;
 import java.util.stream.IntStream;
 
 @SpringBootTest
-public class MemberRepositoryTest {
+public class MemberRepositoryTests {
 
     @Autowired
     private MemberRepository memberRepository;

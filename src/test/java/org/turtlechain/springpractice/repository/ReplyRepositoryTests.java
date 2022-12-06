@@ -6,6 +6,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.turtlechain.springpractice.entity.Board;
 import org.turtlechain.springpractice.entity.Reply;
 
+import java.util.Optional;
 import java.util.stream.IntStream;
 
 @SpringBootTest
@@ -30,6 +31,17 @@ public class ReplyRepositoryTests {
 
             replyRepository.save(reply);
         });
-
     }
+
+    @Test
+    public void readReply1() {
+        Optional<Reply> result = replyRepository.findById(1L);
+
+        Reply reply = result.get();
+
+        System.out.println(reply);
+        System.out.println(reply.getBoard());
+        System.out.println(reply.getBoard().getWriter());
+    }
+
 }
