@@ -5,12 +5,14 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.turtlechain.springpractice.dto.BoardDTO;
 import org.turtlechain.springpractice.dto.PageRequestDTO;
 import org.turtlechain.springpractice.dto.PageResultDTO;
 import org.turtlechain.springpractice.entity.Board;
 import org.turtlechain.springpractice.entity.Member;
 import org.turtlechain.springpractice.repository.BoardRepository;
+import org.turtlechain.springpractice.repository.ReplyRepository;
 
 import java.util.function.Function;
 
@@ -19,7 +21,9 @@ import java.util.function.Function;
 @Log4j2
 public class BoardServiceImpl implements  BoardService{
 
-    private final BoardRepository repository;
+    private final BoardRepository boardRepository;
+
+    private final ReplyRepository replyRepository;
 
     @Override
     public Long register(BoardDTO dto) {
@@ -27,7 +31,7 @@ public class BoardServiceImpl implements  BoardService{
 
         Board board = dtoToEntity(dto);
 
-        repository.save(board);
+        boardRepository.save(board);
 
         return board.getBno();
     }
@@ -38,7 +42,7 @@ public class BoardServiceImpl implements  BoardService{
 
         Function<Object[], BoardDTO> fn = (en -> entityToDTO((Board)en[0], (Member)en[1], (Long)en[2]));
 
-        Page<Object[]> result = repository.getBoardWithReplyCount(pageRequestDTO.getPageable(Sort.by("bno").descending()));
+        Page<Object[]> result = boardRepository.getBoardWithReplyCount(pageRequestDTO.getPageable(Sort.by("bno").descending()));
 
         return new PageResultDTO<>(result, fn);
 
@@ -47,7 +51,7 @@ public class BoardServiceImpl implements  BoardService{
     @Override
     public BoardDTO get(Long bno) {
 
-        Object result = repository.getBoardByBno(bno);
+        Object result = boardRepository.getBoardByBno(bno);
 
         log.info(result);
 
@@ -56,4 +60,26 @@ public class BoardServiceImpl implements  BoardService{
         return entityToDTO((Board)arr[0], (Member)arr[1], (Long)arr[2]);
     }
 
+    @Transactional
+    @Override
+    public void removeWithReplies(Long bno) {
+
+        replyRepository.deleteByBno(bno);
+
+        boardRepository.deleteById(bno);
+
+    }
+
+    @Transactional
+    @Override
+    public void modify(BoardDTO boardDTO) {
+
+        Board board = boardRepository.getReferenceById(boardDTO.getBno());
+
+        board.changeTitle(boardDTO.getTitle());
+        board.changeContent(boardDTO.getContent());
+
+        boardRepository.save(board);
+
+    }
 }
