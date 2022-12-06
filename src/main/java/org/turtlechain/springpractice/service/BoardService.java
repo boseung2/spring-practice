@@ -1,6 +1,7 @@
 package org.turtlechain.springpractice.service;
 
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.jpa.repository.Modifying;
 import org.turtlechain.springpractice.dto.BoardDTO;
 import org.turtlechain.springpractice.dto.PageRequestDTO;
 import org.turtlechain.springpractice.dto.PageResultDTO;
@@ -12,6 +13,8 @@ public interface BoardService {
     Long register(BoardDTO dto);
 
     PageResultDTO<BoardDTO, Object[]> getList(PageRequestDTO pageRequestDTO);
+
+    BoardDTO get(Long bno);
 
     default Board dtoToEntity(BoardDTO dto) {
 

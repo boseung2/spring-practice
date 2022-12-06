@@ -43,4 +43,17 @@ public class BoardServiceImpl implements  BoardService{
         return new PageResultDTO<>(result, fn);
 
     }
+
+    @Override
+    public BoardDTO get(Long bno) {
+
+        Object result = repository.getBoardByBno(bno);
+
+        log.info(result);
+
+        Object[] arr = (Object[])result;
+
+        return entityToDTO((Board)arr[0], (Member)arr[1], (Long)arr[2]);
+    }
+
 }
