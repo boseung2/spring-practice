@@ -6,6 +6,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.turtlechain.springpractice.entity.Board;
 import org.turtlechain.springpractice.entity.Reply;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.IntStream;
 
@@ -19,7 +20,7 @@ public class ReplyRepositoryTests {
     public void insertReply() {
 
         IntStream.rangeClosed(1, 300).forEach(i -> {
-            long bno = (long)(Math.random() * 100) + 1;
+            long bno = (long) (Math.random() * 100) + 1;
 
             Board board = Board.builder().bno(bno).build();
 
@@ -42,6 +43,16 @@ public class ReplyRepositoryTests {
         System.out.println(reply);
         System.out.println(reply.getBoard());
         System.out.println(reply.getBoard().getWriter());
+    }
+
+    @Test
+    public void testListByBoard() {
+        List<Reply> replyList = replyRepository.getRepliesByBoardOrderByRno(Board.builder()
+                .bno(97L)
+                .build());
+
+        replyList.forEach(System.out::println);
+
     }
 
 }
