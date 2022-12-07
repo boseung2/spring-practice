@@ -2,13 +2,11 @@ package org.turtlechain.springpractice.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.apache.coyote.Response;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.turtlechain.springpractice.dto.BoardDTO;
 import org.turtlechain.springpractice.dto.PageRequestDTO;
 import org.turtlechain.springpractice.dto.PageResultDTO;
-import org.turtlechain.springpractice.entity.Board;
 import org.turtlechain.springpractice.service.BoardService;
 
 @RestController
